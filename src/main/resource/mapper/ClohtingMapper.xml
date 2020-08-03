@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+    "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fh.mapper.ClothingMapper">
+    <!--<sql id="productSql">
+        <where>
+            <if test="name !=null and name !='' " >
+                c.name like concat("%",#{name} ,"%")
+            </if>
+        </where>
+    </sql>-->
+    <select id="querySeasonCate" resultType="com.fh.model.Season">
+          select * from t_season
+    </select>
+
+    <select id="queryClothing" resultType="com.fh.vo.ClothingVo" parameterType="com.fh.param.PrductSearchParam">
+        SELECT c.*,s.seasonName from t_clothing c LEFT JOIN t_season s on c.clo_seasonId=s.id
+       <!-- <include refid="productSql"></include>-->
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="queryListNo" resultType="com.fh.model.Clothing" parameterType="com.fh.param.PrductSearchParam">
+        SELECT c.*,s.seasonName from t_clothing c LEFT JOIN t_season s on c.clo_seasonId=s.id
+
+    </select>
+
+
+
+    <select id="selectCount" resultType="long" parameterType="com.fh.param.PrductSearchParam">
+        SELECT count(*) from t_clothing c LEFT JOIN t_season s on c.clo_seasonId=s.id
+        <!--<include refid="productSql"></include>-->
+    </select>
+
+
+    <!--<insert id="addproduceVo" parameterType="purdct">
+    insert  into p_product (name,brandId,price,status,filepath,cradtedate,crtegory1,crtegory2,crtegory3) values
+                            (#{name},#{brandId},#{price},#{status},#{filepath},#{cradtedate},#{crtegory1},#{crtegory2},#{crtegory3})
+    </insert>-->
+  <!--  <update id="updateStatus" parameterType="int">
+      update p_product set status = if(status=1,0,1) where id=#{id}
+</update>-->
+
+</mapper>
